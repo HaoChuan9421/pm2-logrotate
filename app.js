@@ -36,7 +36,7 @@ else if (process.env.HOME || process.env.HOMEPATH) PM2_ROOT_PATH = path.resolve(
 var WORKER_INTERVAL = isNaN(parseInt(conf.workerInterval)) ? 30 * 1000 : parseInt(conf.workerInterval) * 1000; // default: 30 secs
 var SIZE_LIMIT = get_limit_size(); // default : 256MB
 var ROTATE_CRON = conf.rotateInterval || "0 0 0 * * *"; // default : every day at midnight
-var RETAIN = isNaN(parseInt(conf.retain)) ? 7 : parseInt(conf.retain); // default : 7
+var RETAIN = isNaN(parseInt(conf.retain)) ? undefined : parseInt(conf.retain); // All
 var COMPRESSION = typeof JSON.parse(conf.compress) === "boolean" ? JSON.parse(conf.compress) : false; // Do not compress by default
 var DATE_FORMAT = conf.dateFormat || "YYYY-MM-DD-HH-mm-ss";
 var TZ = conf.TZ;
@@ -133,7 +133,7 @@ function proceed(file) {
     fs.truncate(file, function (err) {
       if (err) return pmx.notify(err);
       console.log('"' + final_name + '" has been created');
-      if (RETAIN >= 0) {
+      if (typeof RETAIN === "number") {
         delete_old(file);
       }
     });
@@ -262,13 +262,13 @@ pmx.action("list all logs", function (reply) {
 
 /** PROB PMX **/
 var metrics = {};
-metrics.totalsize = Probe.metric({
-  name: "Global logs size",
+metrics.totalcount = Probe.metric({
+  name: "Files count",
   value: "N/A",
 });
 
-metrics.totalcount = Probe.metric({
-  name: "Files count",
+metrics.totalsize = Probe.metric({
+  name: "Logs size",
   value: "N/A",
 });
 
@@ -290,7 +290,7 @@ function updateFolderSizeProbe() {
   });
 }
 updateFolderSizeProbe();
-setInterval(updateFolderSizeProbe, 30000);
+setInterval(updateFolderSizeProbe, WORKER_INTERVAL);
 
 // update file count every 10secs
 function updateFileCountProbe() {
@@ -304,7 +304,7 @@ function updateFileCountProbe() {
   });
 }
 updateFileCountProbe();
-setInterval(updateFileCountProbe, 30000);
+setInterval(updateFileCountProbe, WORKER_INTERVAL);
 
 function handleUnit(bytes, precision) {
   var kilobyte = 1024;
