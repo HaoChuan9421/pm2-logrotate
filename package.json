@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/haochuan9421/pm2-logrotate",
   "license": "MIT",
+  "files": [
+    "app.js"
+  ],
   "keywords": [
     "pm2",
     "log rotate",
@@ -31,7 +34,9 @@
     {
       "name": "pm2-logrotate-pro",
       "script": "app.js",
-      "max_memory_restart": "500M"
+      "max_memory_restart": "512M",
+      "exp_backoff_restart_delay": 100,
+      "max_restarts": 5
     }
   ],
   "config": {
