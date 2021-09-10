@@ -1,5 +1,5 @@
 {
-  "name": "pm2-logrotate-pro",
+  "name": "pm2-logrotate-next",
   "version": "2.7.0",
   "description": "Module to rotate logs of every pm2 application, forked from pm2-logrotate and fixed some bugs",
   "main": "app.js",
@@ -28,11 +28,11 @@
     "pm2",
     "log rotate",
     "pm2-logrotate",
-    "pm2-logrotate-pro"
+    "pm2-logrotate-next"
   ],
   "apps": [
     {
-      "name": "pm2-logrotate-pro",
+      "name": "pm2-logrotate-next",
       "script": "app.js",
       "max_memory_restart": "512M",
       "exp_backoff_restart_delay": 100,

@@ -1,4 +1,4 @@
-# pm2-logrotate-pro
+# pm2-logrotate-next
 
 NOTE: This is a fork of [pm2-logrotate](https://github.com/keymetrics/pm2-logrotate), which is (currently) unmaintained. this fork is only for personal use, don't guarantee maintenance and safety, use at your own risk.
 
@@ -10,7 +10,7 @@ PM2 module to automatically rotate logs of processes managed by PM2.
 
 ## Install
 
-    pm2 install pm2-logrotate-pro
+    pm2 install pm2-logrotate-next
 
 **NOTE:** the command is `pm2 install` NOT `npm install`
 
