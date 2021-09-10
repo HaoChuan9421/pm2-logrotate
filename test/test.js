@@ -1,9 +1,8 @@
-var MB = '';
+var MB = "";
 
-for (var i = 0; i < 1024 * 1024; ++i)
-  MB += '1';
+for (var i = 0; i < 1024 * 1024; ++i) MB += "1";
 
-setInterval(function() {
+setInterval(function () {
   process.stdout.write(MB);
   process.stderr.write(MB);
 }, 1000);
