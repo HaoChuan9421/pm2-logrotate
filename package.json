@@ -1,7 +1,7 @@
 {
-  "name": "@haochuan9421/pm2-logrotate",
-  "version": "2.7.2",
-  "description": "Module to rotate logs of every pm2 application",
+  "name": "pm2-logrotate-pro",
+  "version": "2.7.0",
+  "description": "Module to rotate logs of every pm2 application, forked from pm2-logrotate and fixed some bugs",
   "main": "app.js",
   "dependencies": {
     "graceful-fs": "^4.2.8",
@@ -21,9 +21,15 @@
   },
   "homepage": "https://github.com/haochuan9421/pm2-logrotate",
   "license": "MIT",
+  "keywords": [
+    "pm2",
+    "log rotate",
+    "pm2-logrotate",
+    "pm2-logrotate-pro"
+  ],
   "apps": [
     {
-      "name": "@haochuan9421/pm2-logrotate",
+      "name": "pm2-logrotate-pro",
       "script": "app.js",
       "max_memory_restart": "500M"
     }
