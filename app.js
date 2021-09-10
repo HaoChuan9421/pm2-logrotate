@@ -5,6 +5,7 @@ var pm2     	= require('pm2');
 var moment  	= require('moment-timezone');
 var scheduler	= require('node-schedule');
 var zlib      = require('zlib');
+var _         = require('lodash');
 
 var conf = pmx.initModule({
   widget : {
@@ -139,9 +140,9 @@ function proceed(file) {
     fs.truncate(file, function (err) {
       if (err) return pmx.notify(err);
       console.log('"' + final_name + '" has been created');
-
-      if (typeof(RETAIN) === 'number') 
+      if (RETAIN >= 0) {
         delete_old(file);
+      }
     });
   });
 }
@@ -178,15 +179,13 @@ function proceed_file(file, force) {
 function proceed_app(app, force) {
   // Check all log path
   // Note: If same file is defined for multiple purposes, it will be processed once only.
-  if (app.pm2_env.pm_out_log_path) {
-    proceed_file(app.pm2_env.pm_out_log_path, force);
-  }
-  if (app.pm2_env.pm_err_log_path && app.pm2_env.pm_err_log_path !== app.pm2_env.pm_out_log_path) {
-    proceed_file(app.pm2_env.pm_err_log_path, force);
-  }
-  if (app.pm2_env.pm_log_path && app.pm2_env.pm_log_path !== app.pm2_env.pm_out_log_path && app.pm2_env.pm_log_path !== app.pm2_env.pm_err_log_path) {
-    proceed_file(app.pm2_env.pm_log_path, force);
-  }
+  _.uniq([
+    app.pm2_env.pm_out_log_path,
+    app.pm2_env.pm_err_log_path,
+    app.pm2_env.pm_log_path,
+  ]).forEach((file)=>{
+    proceed_file(file, force);
+  })
 }
 
 // Connect to local PM2
@@ -205,10 +204,17 @@ pm2.connect(function(err) {
           // if its a module and the rotate of module is disabled, ignore
           if (typeof(app.pm2_env.axm_options.isModule) !== 'undefined' && !ROTATE_MODULE) return ;
 
-          // if apps instances are multi and one of the instances has rotated, ignore
-          if(app.pm2_env.instances > 1 && appMap[app.name]) return;
-          
-          appMap[app.name] = app;
+          // if app is in cluster mode and merge logs, just rotate the merged log file, don't need proceed_app() for each instance, if the have their own log file, proceed_app() for each instance.
+          if (
+            app.pm2_env.exec_mode === "cluster_mode" &&
+            app.pm2_env.merge_logs
+          ) {
+            if (appMap[app.name]) {
+              return;
+            } else {
+              appMap[app.name] = app;
+            }
+          }
           
           proceed_app(app, false);
       });
@@ -231,11 +237,18 @@ pm2.connect(function(err) {
           // if its a module and the rotate of module is disabled, ignore
           if (typeof(app.pm2_env.axm_options.isModule) !== 'undefined' && !ROTATE_MODULE) return ;
 
-          // if apps instances are multi and one of the instances has rotated, ignore
-          if(app.pm2_env.instances > 1 && appMap[app.name]) return;
-
-          appMap[app.name] = app;
-
+          // if app is in cluster mode and merge logs, just rotate the merged log file, don't need proceed_app() for each instance, if the have their own log file, proceed_app() for each instance.
+          if (
+            app.pm2_env.exec_mode === "cluster_mode" &&
+            app.pm2_env.merge_logs
+          ) {
+            if (appMap[app.name]) {
+              return;
+            } else {
+              appMap[app.name] = app;
+            }
+          }
+          
           proceed_app(app, true);
         });
       });
