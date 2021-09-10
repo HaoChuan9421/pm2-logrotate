@@ -9,7 +9,7 @@ var zlib      = require('zlib');
 var conf = pmx.initModule({
   widget : {
     type             : 'generic',
-    logo             : 'https://raw.githubusercontent.com/pm2-hive/pm2-logrotate/master/pres/logo.png',
+    logo             : 'https://raw.githubusercontent.com/haochuan9421/pm2-logrotate/master/pres/logo.png',
     theme            : ['#111111', '#1B2228', '#31C2F1', '#807C7C'],
     el : {
       probes  : false,
@@ -37,11 +37,11 @@ else if (process.env.HOME || process.env.HOMEPATH)
 
 var WORKER_INTERVAL = isNaN(parseInt(conf.workerInterval)) ? 30 * 1000 : 
                             parseInt(conf.workerInterval) * 1000; // default: 30 secs
-var SIZE_LIMIT = get_limit_size(); // default : 10MB
-var ROTATE_CRON = conf.rotateInterval || "0 0 * * *"; // default : every day at midnight
+var SIZE_LIMIT = get_limit_size(); // default : 256MB
+var ROTATE_CRON = conf.rotateInterval || "0 0 0 * * *"; // default : every day at midnight
 var RETAIN = isNaN(parseInt(conf.retain)) ? undefined : parseInt(conf.retain); // All
 var COMPRESSION = JSON.parse(conf.compress) || false; // Do not compress by default
-var DATE_FORMAT = conf.dateFormat || 'YYYY-MM-DD_HH-mm-ss';
+var DATE_FORMAT = conf.dateFormat || 'YYYY-MM-DD-HH-mm-ss';
 var TZ = conf.TZ;
 var ROTATE_MODULE = JSON.parse(conf.rotateModule) || true;
 var WATCHED_FILES = [];
@@ -62,7 +62,7 @@ function get_limit_size() {
 
 function delete_old(file) {
   if (file === "/dev/null") return;
-  var fileBaseName = file.substr(0, file.length - 4).split('/').pop() + "__";
+  var fileBaseName = file.substr(0, file.length - 4).split(path.sep).pop() + "__";
   var dirName = path.dirname(file);
 
   fs.readdir(dirName, function(err, files) {
