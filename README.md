@@ -2,7 +2,7 @@
 
 NOTE: This is a fork of [pm2-logrotate](https://github.com/keymetrics/pm2-logrotate), which is (currently) unmaintained. this fork is only for personal use, don't guarantee maintenance and safety, use at your own risk.
 
-注意：这是 一个来自 [pm2-logrotate](https://github.com/keymetrics/pm2-logrotate) 的 fork，它现在已经不维护了，这个 fork 只是为了方便我个人使用，不保证持续的维护和安全性，风险自担。
+注意：这是 一个来自 [pm2-logrotate](https://github.com/keymetrics/pm2-logrotate) 的 fork，原仓库已经不维护了，这个 fork 只是为了方便我个人使用，不保证持续的维护和安全性，风险自担。
 
 ## Description
 
