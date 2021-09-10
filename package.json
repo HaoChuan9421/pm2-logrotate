@@ -4,11 +4,11 @@
   "description": "Module to rotate logs of every pm2 application",
   "main": "app.js",
   "dependencies": {
-    "graceful-fs": "^4.2.2",
-    "moment-timezone": "^0.5.11",
-    "node-schedule": "^1.3.1",
-    "pm2": "latest",
-    "pmx": "latest"
+    "graceful-fs": "^4.2.8",
+    "moment-timezone": "^0.5.33",
+    "node-schedule": "^2.0.0",
+    "pm2": "^5.1.1",
+    "pmx": "^1.6.7"
   },
   "author": "郑昊川",
   "repository": {
@@ -24,7 +24,7 @@
     {
       "name": "pm2-logrotate",
       "script": "app.js",
-      "max_memory_restart" : "500M"
+      "max_memory_restart": "500M"
     }
   ],
   "config": {
