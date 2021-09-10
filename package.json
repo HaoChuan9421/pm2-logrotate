@@ -1,6 +1,6 @@
 {
   "name": "pm2-logrotate-next",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Module to rotate logs of every pm2 application, forked from pm2-logrotate and fixed some bugs",
   "main": "app.js",
   "dependencies": {
