@@ -28,12 +28,12 @@
     }
   ],
   "config": {
-    "max_size": "10M",
-    "retain": "30",
+    "max_size": "256M",
+    "retain": "7",
     "compress": false,
-    "dateFormat": "YYYY-MM-DD_HH-mm-ss",
+    "dateFormat": "YYYY-MM-DD-HH-mm-ss",
     "workerInterval": "30",
-    "rotateInterval": "0 0 * * *",
-    "rotateModule": true
+    "rotateInterval": "0 0 0 * * *",
+    "rotateModule": false
   }
 }

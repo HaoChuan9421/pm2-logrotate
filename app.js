@@ -39,16 +39,16 @@ var WORKER_INTERVAL = isNaN(parseInt(conf.workerInterval)) ? 30 * 1000 :
                             parseInt(conf.workerInterval) * 1000; // default: 30 secs
 var SIZE_LIMIT = get_limit_size(); // default : 256MB
 var ROTATE_CRON = conf.rotateInterval || "0 0 0 * * *"; // default : every day at midnight
-var RETAIN = isNaN(parseInt(conf.retain)) ? undefined : parseInt(conf.retain); // All
-var COMPRESSION = JSON.parse(conf.compress) || false; // Do not compress by default
+var RETAIN = isNaN(parseInt(conf.retain)) ? 7 : parseInt(conf.retain); // default : 7
+var COMPRESSION = typeof JSON.parse(conf.compress) === "boolean" ? JSON.parse(conf.compress) : false; // Do not compress by default
 var DATE_FORMAT = conf.dateFormat || 'YYYY-MM-DD-HH-mm-ss';
 var TZ = conf.TZ;
-var ROTATE_MODULE = JSON.parse(conf.rotateModule) || true;
+var ROTATE_MODULE = typeof JSON.parse(conf.rotateModule) === "boolean" ? JSON.parse(conf.compress) : false; // Do not rotate module log by default
 var WATCHED_FILES = [];
 
 function get_limit_size() {
   if (conf.max_size === '')
-    return (1024 * 1024 * 10);
+    return (1024 * 1024 * 256);
   if (typeof(conf.max_size) !== 'string')
       conf.max_size = conf.max_size + "";
   if (conf.max_size.slice(-1) === 'G')
